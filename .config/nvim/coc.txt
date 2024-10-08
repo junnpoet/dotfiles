@@ -1,8 +1,0 @@
-extensiones:
-. coc-snippets
-. coc-html
-. coc-tsserver
-. coc-pyright
-. coc-json
-. coc-css
-. coc-emmet

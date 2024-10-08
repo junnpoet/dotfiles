@@ -156,6 +156,7 @@ keys = [
 
 # TOGGLE FLOATING LAYOUT
     Key([mod, "shift"], "space", lazy.window.toggle_floating()),
+
     ]
 
 def window_to_previous_screen(qtile, switch_group=False, switch_screen=False):
@@ -183,10 +184,10 @@ keys.extend([
 groups = []
 
 # FOR QWERTY KEYBOARDS
-group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0",]
+#group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0",]
 
 # FOR AZERTY KEYBOARDS
-#group_names = ["ampersand", "eacute", "quotedbl", "apostrophe", "parenleft", "section", "egrave", "exclam", "ccedilla", "agrave",]
+group_names = ["ampersand", "eacute", "quotedbl", "apostrophe", "parenleft", "section", "egrave", "exclam", "ccedilla", "agrave",]
 
 #group_labels = ["1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "0",]
 group_labels = ["", "", "", "", "", "", "", "", "", "",]
@@ -223,8 +224,8 @@ for i in groups:
 def init_layout_theme():
     return {"margin":5,
             "border_width":2,
-            "border_focus": "#bf1b44",
-            "border_normal": "#5e0d21"
+            "border_focus": "#5e81ac",
+            "border_normal": "#4c566a"
             }
 
 layout_theme = init_layout_theme()
@@ -243,21 +244,22 @@ layouts = [
 ]
 
 # COLORS FOR THE BAR
-#Theme name : ArcoLinux Zion
+#Theme name : ArcoLinux Default
 def init_colors():
-    return [["#4a4a46", "#4a4a46"], # color 0
-            ["#4a4a46", "#4a4a46"], # color 1
-            ["#e3bbf1", "#e3bbf1"], # color 2
-            ["#d33682", "#d33682"], # color 3
+    return [["#2F343F", "#2F343F"], # color 0
+            ["#2F343F", "#2F343F"], # color 1
+            ["#c0c5ce", "#c0c5ce"], # color 2
+            ["#fba922", "#fba922"], # color 3
             ["#3384d0", "#3384d0"], # color 4
-            ["#fdf6e3", "#fdf6e3"], # color 5
-            ["#d42121", "#d42121"], # color 6
+            ["#f3f4f5", "#f3f4f5"], # color 5
+            ["#cd1f3f", "#cd1f3f"], # color 6
             ["#62FF00", "#62FF00"], # color 7
-            ["#9742b5", "#9742b5"], # color 8
-            ["#002b36", "#002b36"]] # color 9
+            ["#6790eb", "#6790eb"], # color 8
+            ["#a9a9a9", "#a9a9a9"]] # color 9
 
 
 colors = init_colors()
+
 
 # WIDGETS FOR THE BAR
 
@@ -590,14 +592,6 @@ floating_layout = layout.Floating(float_rules=[
     Match(wm_class='Galculator'),
     Match(wm_class='archlinux-logout'),
     Match(wm_class='xfce4-terminal'),
-    Match(wm_class='alarm-clock-applet'),
-    Match(wm_class='onedrivegui'),
-    Match(wm_class='cheese'),
-    Match(wm_class='emoji-picker'),
-    Match(wm_class='aimp.exe'),
-    Match(wm_class='crx_nngceckbapebfimnlniiiahkandclblb'),
-    Match(wm_class='xampp-control-panel.py'),
-    Match(wm_class='zoom'),
 
 ],  fullscreen_border_width = 0, border_width = 0)
 auto_fullscreen = True

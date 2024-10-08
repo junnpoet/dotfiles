@@ -1,6 +1,6 @@
 # PROMPT
    # No imprimir una línea al comienzo de la shell
-   add_newline = false
+   add_newline = true
 
    # Esperar a que aparezcan los íconos de cualquier cosa
    command_timeout = 10000
@@ -16,6 +16,7 @@
    [character] # Módulo de configuracion de caracter
    success_symbol = "[➜](bold green)"
    error_symbol = "[➜](bold red)"
+   vimcmd_symbol = '[VI >](bold cyan)'
 
    [directory]
    truncation_length = 3
@@ -33,12 +34,12 @@
    style = "bold dimmed white"
    disabled = true
 
-   # Hora
-   [time]
-   time_format = "%T"
-   format = "🕙 $time($style) "
-   style = "bright-white"
-   disabled = false
+    # Hora
+    #[time]
+    #time_format = "%T"
+    #format = "🕙 $time($style) "
+    #style = "bright-white"
+    #disabled = false
 #PROMPT
 
 
@@ -63,10 +64,14 @@ style = "bold red"
 
 
 # Lenguajes de Programación 
+[java]
+format = "[$symbol$version]($style) "
+style = "bold green"
+
 [python]
 format = "[$symbol$version]($style) "
 style = "bold green"
-python_binary = "python3.9"
+python_binary = "python3.12"
 
 [nodejs]
 format = "[$symbol$version]($style) "
@@ -79,10 +84,6 @@ style = "bold green"
 
 [golang]
 format = "[$symbol$version]($style) "
-
-[java]
-format = "[$symbol$version]($style) "
-style = "bold green"
 
 [lua]
 format = "[$symbol$version]($style) "

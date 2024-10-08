@@ -1,0 +1,32 @@
+import = [
+  "/usr/lib/node_modules/alacritty-themes/themes/Isotope.dark.toml"
+]
+
+[font]
+size = 8
+
+  [font.bold]
+  family = "hack"
+  style = "Bold"
+
+  [font.bold_italic]
+  family = "monospace"
+  style = "Bold Italic"
+
+  [font.italic]
+  family = "hack"
+  style = "Italic"
+
+  [font.normal]
+  family = "hack"
+  style = "Regular"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+
+[scrolling]
+history = 50_000
+
+[window]
+opacity = 0.8

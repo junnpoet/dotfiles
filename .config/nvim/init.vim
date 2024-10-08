@@ -1,27 +1,51 @@
-" General
-source $HOME/.config/nvim/general/settings.vim
-source $HOME/.config/nvim/general/keys.vim
-source $HOME/.config/nvim/general/builds.vim
-source $HOME/.config/nvim/vim-plug/plugins.vim
+set clipboard=unnamedplus
+set relativenumber
+set number
+set formatoptions-=cro
+set mouse=a
+set numberwidth=1
+set ruler
+set encoding=utf-8
+set laststatus=0
+set smartindent
+set autoindent
+set expandtab
+set smarttab
+set tabstop=4
+set shiftwidth=4
+set showtabline=4
+set hidden
+set fileencoding=utf-8 
+set splitbelow
+set splitright
+set background=dark
+set autochdir
+syntax enable
+filetype on
+filetype indent on
+filetype plugin on
 
-" Themes
-source $HOME/.config/nvim/general/colors.vim
-source $HOME/.config/nvim/themes/airline.vim
-source $HOME/.config/nvim/themes/codedark.vim
+colorscheme ron
 
-" Plugins
-source $HOME/.config/nvim/plug-config/nerdtree.vim
-source $HOME/.config/nvim/plug-config/fzf.vim
-source $HOME/.config/nvim/plug-config/vim-closetag.vim
-source $HOME/.config/nvim/plug-config/prettier.vim
-source $HOME/.config/nvim/plug-config/rnvimr.vim
-source $HOME/.config/nvim/plug-config/coc.vim
-source $HOME/.config/nvim/plug-config/supertab.vim
-source $HOME/.config/nvim/plug-config/indentLine.vim
-source $HOME/.config/nvim/plug-config/vim-commentary.vim
-source $HOME/.config/nvim/plug-config/fugitive.vim
-source $HOME/.config/nvim/plug-config/emmet.vim
-source $HOME/.config/nvim/plug-config/bartag.vim
-source $HOME/.config/nvim/plug-config/hexokinase.vim
-source $HOME/.config/nvim/plug-config/fzf-git.vim
-source $HOME/.config/nvim/plug-config/ultisnips.vim
+highlight Normal guibg=none
+highlight NonText guibg=none
+highlight Normal ctermbg=none
+highlight NonText ctermbg=none
+highlight EndOfBuffer guibg=none ctermbg=none
+
+" Keymaps
+let mapleader=" "
+
+nmap <Leader>w :w<CR>
+nmap <Leader>q :q<CR>
+nmap <Leader>sq :q!<CR>
+
+inoremap jk <ESC>
+
+syntax on
+
+" checks if your terminal has 24-bit color support
+if (has("termguicolors"))
+  set termguicolors
+endif
+
