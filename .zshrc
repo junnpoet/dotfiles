@@ -3,7 +3,7 @@ export ZSH=/usr/share/oh-my-zsh/
 
 ZSH_THEME="fwalch"
 
-plugins=(git)
+plugins=(git vi-mode)
 
 if [ -f $ZSH/oh-my-zsh.sh ]; then
   source $ZSH/oh-my-zsh.sh
@@ -43,7 +43,7 @@ if [ -d "$HOME/.local/bin" ] ;
 fi
 
 # VI MODE
-bindkey -v
+#bindkey -v
 
 #Starship
 eval "$(starship init zsh)"

@@ -64,7 +64,7 @@ super + F12
 
 #Browser
 super + w
-    brave --force-device-scale-factor=0.9 %U
+    brave %U
 
 #Conky-toggle
 #super + c
