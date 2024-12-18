@@ -261,6 +261,7 @@ alias jctl="journalctl -p 3 -xb"
 
 #neovim for important configuration files
 #know what you do in these files
+alias v="nvim"
 alias nlxdm="sudo $EDITOR /etc/lxdm/lxdm.conf"
 alias nlightdm="sudo $EDITOR /etc/lightdm/lightdm.conf"
 alias npacman="sudo $EDITOR /etc/pacman.conf"

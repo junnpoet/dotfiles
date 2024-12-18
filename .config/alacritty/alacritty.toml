@@ -1,21 +1,21 @@
 
 [font]
-size = 8
+size = 8.0
 
   [font.bold]
-  family = "hack"
+  family = "Hack Nerd Font"
   style = "Bold"
 
   [font.bold_italic]
-  family = "monospace"
+  family = "Hack Nerd Font"
   style = "Bold Italic"
 
   [font.italic]
-  family = "hack"
+  family = "Hack Nerd Font"
   style = "Italic"
 
   [font.normal]
-  family = "hack"
+  family = "Hack Nerd Font"
   style = "Regular"
 
 [[keyboard.bindings]]
@@ -26,7 +26,7 @@ key = "F11"
 history = 50_000
 
 [window]
-opacity = 0.8
+opacity = 0.9
 
 [general]
 import = [
