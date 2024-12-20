@@ -1,6 +1,6 @@
 
 [font]
-size = 8.0
+size = 8.5
 
   [font.bold]
   family = "Hack Nerd Font"
@@ -30,5 +30,5 @@ opacity = 0.9
 
 [general]
 import = [
-  "/home/juanlc/.config/alacritty/MyDarkIsotope.toml"
+  "/home/juanlc/.config/alacritty/my-tokyo-night.toml"
 ]
