@@ -28,7 +28,6 @@ require("lazy").setup({
                 },
             },
         },
-
         {
             "snacks.nvim",
             opts = {

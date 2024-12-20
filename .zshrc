@@ -3,7 +3,7 @@ export ZSH=/usr/share/oh-my-zsh/
 
 ZSH_THEME="fwalch"
 
-plugins=(git vi-mode)
+plugins=(git vi-mode fzf-zsh-plugin)
 
 if [ -f $ZSH/oh-my-zsh.sh ]; then
   source $ZSH/oh-my-zsh.sh
