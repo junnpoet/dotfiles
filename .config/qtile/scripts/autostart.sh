@@ -50,9 +50,9 @@ picom --config $HOME/.config/qtile/scripts/picom.conf &
 
 #starting user applications at boot time
 run volumeicon &
+pkill -f onedrive
 onedrivegui &
 flameshot &
-alarm-clock-applet -h &
 kdocker -q thunderbird &
 #run discord &
 #nitrogen --restore &
