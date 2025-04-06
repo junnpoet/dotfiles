@@ -7,6 +7,7 @@ return {
                 "css-lsp",
                 "emmet-ls",
                 "eslint-lsp",
+                "html-lsp",
                 "json-lsp",
                 "lua-language-server",
                 "prettier",
@@ -22,6 +23,28 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
         servers = {
+            cssls = {
+                settings = {
+                    css = {
+                        completion = {
+                            triggerPropertyValueCompletion = false, -- Desactiva autocompletado inmediato dentro de valores
+                            completePropertyWithSemicolon = false, -- Evita autocompletar con `;`
+                        },
+                    },
+                    scss = {
+                        completion = {
+                            triggerPropertyValueCompletion = false,
+                            completePropertyWithSemicolon = false,
+                        },
+                    },
+                    less = {
+                        completion = {
+                            triggerPropertyValueCompletion = false,
+                            completePropertyWithSemicolon = false,
+                        },
+                    },
+                },
+            },
             emmet_ls = {
                 filetypes = { "html", "htm", "xhtml" },
             },

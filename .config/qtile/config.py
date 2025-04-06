@@ -598,6 +598,8 @@ floating_layout = layout.Floating(float_rules=[
     Match(wm_class='crx_nngceckbapebfimnlniiiahkandclblb'),
     Match(wm_class='xampp-control-panel.py'),
     Match(wm_class='zoom'),
+    Match(wm_class='org.gnome.FileRoller'),
+    Match(wm_class='archlinux-logout.py'),
 
 ],  fullscreen_border_width = 0, border_width = 0)
 auto_fullscreen = True

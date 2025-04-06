@@ -132,7 +132,7 @@ super + shift + d
 super + d
     rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/qtile/rofi/launcher2.rasi
 
-#reload xhkd:
+#reload sxhkd:
 super + shift + z
 	pkill -USR1 -x sxhkd
 
@@ -209,13 +209,9 @@ ctrl + alt + r
 ctrl + alt + s
    spotify
 
-#alacritty
-ctrl + alt + Return
-    alacritty
-
-#alacritty
-ctrl + alt + t
-    alacritty
+#xfce4-terminal
+super + t
+   xfce4-terminal
 
 #Vivaldi
 ctrl + alt + v

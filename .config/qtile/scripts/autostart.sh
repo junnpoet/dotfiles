@@ -27,7 +27,7 @@ run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop &
 run xset r rate 280 30
 
 #Some ways to set your wallpaper besides variety or nitrogen
-feh --bg-fill /home/juanlc/ArcoDatos/Onedrive/Wallpapers/wallpapers/0042.jpg &
+feh --bg-fill /home/juanlc/ArcoDatos/Onedrive/Wallpapers/image-w1280.jpg &
 #wallpaper for other Arch based systems
 #feh --bg-fill /usr/share/archlinux-tweak-tool/data/wallpaper/wallpaper.png &
 #start the conky to learn the shortcuts
