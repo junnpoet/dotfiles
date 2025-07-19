@@ -1,2 +1,2 @@
-## Hola mundo, aquí mis dotfiles
-Estos son mis archivos de configuración, utilizados para mi sistema ArcoLinux.
+## Aquí mis dotfiles
+Estos son archivos de configuración, utilizados para un sistema ArcoLinux.
