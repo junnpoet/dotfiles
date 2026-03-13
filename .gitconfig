@@ -1,0 +1,6 @@
+[user]
+	name = Juan López
+	email = juanandrelopezcordova8@gmail.com
+[core]
+	editor = nvim
+	pager = less -F -X

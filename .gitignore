@@ -1,0 +1,16 @@
+.bash_history
+.bash_logout
+.cache/
+.expo/
+.lesshst
+.local/
+.motd_shown
+.npm/
+.profile
+.python_history
+.ssh/
+.sudo_as_admin_successful
+.wezterm.lua
+.zcompdump
+Workspace
+dotfiles/
