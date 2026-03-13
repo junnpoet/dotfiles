@@ -6,7 +6,6 @@
 .local/
 .motd_shown
 .npm/
-.profile
 .python_history
 .ssh/
 .sudo_as_admin_successful
