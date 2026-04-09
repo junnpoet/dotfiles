@@ -13,3 +13,13 @@
 .zcompdump
 Workspace
 dotfiles/
+.bun/
+.dotnet/
+.engram/
+.gentle-ai/
+.oh-my-zsh/
+.wget-hsts
+.zcompdump-DESKTOP-SM6VJDV-5.9
+.zcompdump-DESKTOP-SM6VJDV-5.9.zwc
+.zsh_history
+go/

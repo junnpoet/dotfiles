@@ -1,4 +1,3 @@
-set clipboard=unnamedplus
 set relativenumber
 set number
 set formatoptions-=cro
@@ -41,6 +40,12 @@ nmap <Leader>q :q<CR>
 nmap <Leader>sq :q!<CR>
 
 inoremap jk <ESC>
+
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
 
 syntax on
 
