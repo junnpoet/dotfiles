@@ -1,2 +1,2 @@
 -- Extra autostart processes.
-o.launch_on_start("hyprlock")
+-- o.launch_on_start("hyprlock")
