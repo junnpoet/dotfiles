@@ -9,6 +9,7 @@ Last updated: 2026-08-25
 - skills
 - /home/lucille/.pi/agent/skills
 - /home/lucille/.agents/skills
+- /home/lucille/.config/opencode/skills
 - /home/lucille/.claude/skills
 - /home/lucille/.codex/skills
 
@@ -22,18 +23,18 @@ Last updated: 2026-08-25
 
 | Skill | Trigger / description | Scope | Path |
 | --- | --- | --- | --- |
-| `branch-pr` | Create Gentle AI pull requests with issue-first checks. Trigger: creating, opening, or preparing PRs for review. | project | `/home/lucille/.config/opencode/skills/branch-pr/SKILL.md` |
-| `chained-pr` | Trigger: PRs over 400 lines, stacked PRs, review slices. Split oversized changes into chained PRs that protect review focus. | project | `/home/lucille/.config/opencode/skills/chained-pr/SKILL.md` |
-| `cognitive-doc-design` | Design docs that reduce cognitive load. Trigger: writing guides, READMEs, RFCs, onboarding, architecture, or review-facing docs. | project | `/home/lucille/.config/opencode/skills/cognitive-doc-design/SKILL.md` |
-| `comment-writer` | Write warm, direct collaboration comments. Trigger: PR feedback, issue replies, reviews, Slack messages, or GitHub comments. | project | `/home/lucille/.config/opencode/skills/comment-writer/SKILL.md` |
+| `branch-pr` | Create Gentle AI pull requests with issue-first checks. Trigger: creating, opening, or preparing PRs for review. | project | `/home/lucille/dotfiles/.config/opencode/skills/branch-pr/SKILL.md` |
+| `chained-pr` | Trigger: PRs over 400 lines, stacked PRs, review slices. Split oversized changes into chained PRs that protect review focus. | project | `/home/lucille/dotfiles/.config/opencode/skills/chained-pr/SKILL.md` |
+| `cognitive-doc-design` | Design docs that reduce cognitive load. Trigger: writing guides, READMEs, RFCs, onboarding, architecture, or review-facing docs. | project | `/home/lucille/dotfiles/.config/opencode/skills/cognitive-doc-design/SKILL.md` |
+| `comment-writer` | Write warm, direct collaboration comments. Trigger: PR feedback, issue replies, reviews, Slack messages, or GitHub comments. | project | `/home/lucille/dotfiles/.config/opencode/skills/comment-writer/SKILL.md` |
 | `diagnose-crash` | Diagnose why a program crashed on this machine, from a systemd-coredump core dump. Use when a process has segfaulted, aborted, or otherwise dumped core, when asked why an application crashed or disappeared, or when a "Process crashed:" desktop notification is acted on. Triggers: crash, segfault, SIGSEGV, SIGABRT, core dump, coredumpctl, "why did X crash", "X keeps crashing", backtrace symbolization. Covers reporting a confirmed Omarchy bug upstream — see reporting.md. | user | `/home/lucille/.pi/agent/skills/diagnose-crash/SKILL.md` |
-| `go-testing` | Trigger: Go tests, go test coverage, Bubbletea teatest, golden files. Apply focused Go testing patterns. | project | `/home/lucille/.config/opencode/skills/go-testing/SKILL.md` |
-| `issue-creation` | Create and triage GitHub issues from repository evidence. Trigger: issue creation, bug reports, feature requests, or issue approval. | project | `/home/lucille/.config/opencode/skills/issue-creation/SKILL.md` |
-| `judgment-day` | Trigger: judgment day, dual review, adversarial review, juzgar. Run explicit blind dual review with at most two scoped fix/re-judgment rounds. | project | `/home/lucille/.config/opencode/skills/judgment-day/SKILL.md` |
+| `go-testing` | Trigger: Go tests, go test coverage, Bubbletea teatest, golden files. Apply focused Go testing patterns. | project | `/home/lucille/dotfiles/.config/opencode/skills/go-testing/SKILL.md` |
+| `issue-creation` | Create and triage GitHub issues from repository evidence. Trigger: issue creation, bug reports, feature requests, or issue approval. | project | `/home/lucille/dotfiles/.config/opencode/skills/issue-creation/SKILL.md` |
+| `judgment-day` | Trigger: judgment day, dual review, adversarial review, juzgar. Run explicit blind dual review with at most two scoped fix/re-judgment rounds. | project | `/home/lucille/dotfiles/.config/opencode/skills/judgment-day/SKILL.md` |
 | `omarchy` | REQUIRED for end-user customization of Linux desktop, window manager, or system config. Use when editing ~/.config/hypr/, ~/.config/omarchy/, ~/.config/alacritty/, ~/.config/foot/, ~/.config/kitty/, or ~/.config/ghostty/. Triggers: Hyprland, window rules, animations, keybindings, monitors, gaps, borders, blur, opacity, omarchy-shell, bar, terminal config, themes, background, night light, idle, lock screen, screenshots, reminders, layer rules, workspace settings, display config, and user-facing omarchy commands. Excludes Omarchy source development through `omarchy dev link` workflows. | user | `/home/lucille/.pi/agent/skills/omarchy/SKILL.md` |
-| `skill-creator` | Trigger: new skills, agent instructions, documenting AI usage patterns. Create LLM-first skills with valid frontmatter. | project | `/home/lucille/.config/opencode/skills/skill-creator/SKILL.md` |
-| `skill-improver` | Trigger: improve skills, audit skills, refactor skills, skill quality. Audit and upgrade existing LLM-first skills. | project | `/home/lucille/.config/opencode/skills/skill-improver/SKILL.md` |
-| `work-unit-commits` | Plan commits as reviewable work units. Trigger: implementation, commit splitting, chained PRs, or keeping tests and docs with code. | project | `/home/lucille/.config/opencode/skills/work-unit-commits/SKILL.md` |
+| `skill-creator` | Trigger: new skills, agent instructions, documenting AI usage patterns. Create LLM-first skills with valid frontmatter. | project | `/home/lucille/dotfiles/.config/opencode/skills/skill-creator/SKILL.md` |
+| `skill-improver` | Trigger: improve skills, audit skills, refactor skills, skill quality. Audit and upgrade existing LLM-first skills. | project | `/home/lucille/dotfiles/.config/opencode/skills/skill-improver/SKILL.md` |
+| `work-unit-commits` | Plan commits as reviewable work units. Trigger: implementation, commit splitting, chained PRs, or keeping tests and docs with code. | project | `/home/lucille/dotfiles/.config/opencode/skills/work-unit-commits/SKILL.md` |
 
 ## Loading protocol
 
