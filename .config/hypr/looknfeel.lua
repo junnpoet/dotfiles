@@ -20,8 +20,8 @@ hl.config({
     -- rounding = 5,
 
     -- Dim unfocused windows (0.0 = no dim, 1.0 = fully dimmed).
-    dim_inactive = true,
-    dim_strength = 0.15,
+    -- dim_inactive = true,
+    -- dim_strength = 0.15,
 
     blur = {
       enabled = true,
