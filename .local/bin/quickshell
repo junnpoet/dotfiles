@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Forzar escala 1.0 para Quickshell / Omarchy Shell
+export QT_SCALE_FACTOR=1
+exec /usr/bin/quickshell "$@"
