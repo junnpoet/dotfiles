@@ -1,0 +1,44 @@
+# Authentication, Accounts & Secrets (CRITICAL)
+oauth_creds.json
+google_accounts.json
+trustedFolders.json
+installation_id
+antigravity-cli/installation_id
+jetski_state.pbtxt
+antigravity-cli/jetski_state.pbtxt
+
+# Sessions, Conversations & History
+history/
+history.jsonl
+antigravity-cli/history.jsonl
+antigravity-cli/conversations/
+antigravity-cli/conversation_summaries.db*
+antigravity-cli/annotations/
+antigravity-cli/implicit/
+antigravity-cli/brain/
+brain/
+
+# Machine State & Local Cache
+settings.json
+antigravity-cli/settings.json
+state.json
+projects.json
+tmp/
+antigravity-cli/cache/
+antigravity-cli/crashes/
+antigravity-cli/knowledge/
+antigravity-cli/log/
+antigravity-cli/cli.log
+antigravity-cli/presence/
+
+# Binaries & Shipped Builtins
+antigravity-cli/bin/
+antigravity-cli/builtin/
+
+# Ephemeral & Database Files
+*.lock
+*.db
+*.db-shm
+*.db-wal
+*.pb
+*.log
