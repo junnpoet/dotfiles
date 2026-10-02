@@ -31,7 +31,12 @@ o.window("^(org.gnome.clocks)$", { float = true, size = "900 600" })
 o.window("^(xdg-desktop-portal-gtk)$", { float = true, size = "850 650" })
 o.window("^(org.strawberrymusicplayer.strawberry)$", { float = true, size = "1000 600" })
 o.window("^(strawberry)$", { float = true, size = "850 550" })
+o.window("^(org.xfce.mousepad)$", { float = true })
 o.window("^(PacketTracer)$", { float = true, no_follow_mouse = true })
+o.window({ class = "^(Zotero)$", title = "^(Diálogo de citas|.*[Cc]itation.*|Zotero - Añadir/Editar cita)$" }, { float = true, size = "1000 300" })
+o.window({ class = "^(Zotero)$", title = "^(Progreso|Progress|^$)$" }, { float = true })
+o.window({ class = "^(Zotero)$", initial_title = "^$" }, { float = true })
+o.window({ class = "^(libreoffice-startcenter)$" }, { float = true, size = "745 435", center = true })
 
 hl.on("window.open", function(win)
   if win and win.class == "PacketTracer" then
@@ -41,3 +46,6 @@ hl.on("window.open", function(win)
     end
   end
 end)
+
+-- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
+do local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end

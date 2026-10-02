@@ -317,7 +317,7 @@
         "read": true,
         "write": true
       }
-    },
+    }
   },
   "autoupdate": false,
   "default_agent": "gentle-orchestrator",

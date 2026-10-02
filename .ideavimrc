@@ -1,0 +1,30 @@
+" Salir del modo de inserción con jk
+inoremap jk <Esc>
+
+" Búsqueda rápida de clases con doble Espacio
+nmap <Space><Space> <Action>(GotoClass)
+
+" Búsqueda rápida de archivos con Espacio + ;
+nmap <Space>; <Action>(GotoFile)
+
+" Copiar al portapapeles del sistema con Espacio + y (Normal y Visual)
+nnoremap <Space>y "+y
+vnoremap <Space>y "+y
+
+" Pegar desde el portapapeles del sistema con Espacio + p (Normal y Visual)
+nnoremap <Space>p "+p
+vnoremap <Space>p "+p
+
+" Cerrar buffer con Espacio + q
+nnoremap <Space>q :q<CR>
+
+" Navegar entre buffers con Shift + H/L
+nnoremap H :bprevious<CR>
+nnoremap L :bnext<CR>
+
+" Saltar la ocurrencia actual en cursores múltiples
+set multiple-cursors
+nmap <C-x> <Plug>SkipOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+
+set ideajoin
