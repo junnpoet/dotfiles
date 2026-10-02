@@ -1,7 +1,9 @@
 {
   "userSettings": {
+    "permissionGrantsV2Migrated": true,
     "remoteControlEnabled": true,
     "remoteControlHostname": "dynamo-quantum-cosmos",
+    "sandboxEnabledAtV2Migration": true,
     "themeMode": "THEME_MODE_DARK"
   }
 }
