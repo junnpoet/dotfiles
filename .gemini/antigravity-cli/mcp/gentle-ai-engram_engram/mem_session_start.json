@@ -1,1 +1,0 @@
-{"name":"mem_session_start","description":"Register the start of a new coding session. Call this at the beginning of a session to track activity.","parameters":{"properties":{"directory":{"description":"Working directory","type":"string"},"id":{"description":"Unique session identifier","type":"string"}},"required":["id"],"type":"object"}}

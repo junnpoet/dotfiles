@@ -9,6 +9,13 @@
         "--tools=agent"
       ],
       "command": "/home/lucille/go/bin/engram"
+    },
+    "markitdown": {
+      "args": [
+        "markitdown-mcp"
+      ],
+      "command": "uvx",
+      "disabled": false
     }
   }
 }

@@ -1,1 +1,0 @@
-{"name":"mem_stats","description":"Show memory system statistics — total sessions, observations, and projects tracked.","parameters":{"properties":{"project":{"description":"Project to echo in envelope context (omit for auto-detect; stats themselves are global aggregates)","type":"string"}},"required":[],"type":"object"}}
