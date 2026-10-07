@@ -68,8 +68,8 @@ o.bind("SUPER + N", "Previous window in group", hl.dsp.group.prev())
 o.bind("SUPER + M", "Next window in group", hl.dsp.group.next())
 
 -- Group navigation (reorder) – movegroupwindow b/f → hl.dsp.group.move_window
-o.bind("SUPER + ALT + N", "Reorder window backward", hl.dsp.group.move_window({ direction = "b" }))
-o.bind("SUPER + ALT + M", "Reorder window forward", hl.dsp.group.move_window({ direction = "f" }))
+o.bind("SUPER + ALT + N", "Reorder window backward", hl.dsp.group.move_window({ forward = false }))
+o.bind("SUPER + ALT + M", "Reorder window forward", hl.dsp.group.move_window({ forward = true }))
 
 -- Emoji picker (Logitech MX Keys) – omarchy-launch-walker fue reemplazado por omarchy-shell
 o.bind("SUPER + PERIOD", "Emoji picker", "omarchy-shell shell toggle omarchy.emojis")
