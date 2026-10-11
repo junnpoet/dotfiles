@@ -2,3 +2,4 @@ node_modules/
 .atl/
 *.local
 .gga.local
+__pycache__/
