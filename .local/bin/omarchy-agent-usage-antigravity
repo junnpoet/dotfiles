@@ -139,73 +139,98 @@ def build_recent_days(prompts_by_date: dict[str, int], sessions_by_date: dict[st
 
 
 CACHE_DIR = Path.home() / ".cache" / "omarchy" / "agent-usage"
-LIMITS_CACHE_FILE = CACHE_DIR / "antigravity-limits.json"
+# v2 caches every quota group tagged with its family; the v1 file only held
+# Gemini rows, so it is left alone rather than misread.
+LIMITS_CACHE_FILE = CACHE_DIR / "antigravity-limits-v2.json"
 LIMITS_CACHE_MAX_AGE = 300  # 5 minutes
 
 
-def collect_limits(force: bool = False) -> list[dict[str, Any]]:
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+def model_family(name: str) -> str:
+    # Antigravity splits quotas in two pools: Gemini models, and the partner
+    # models (Claude, GPT-OSS) that share the second one.
+    return "gemini" if "gemini" in str(name).lower() else "partner"
 
-    if not force and LIMITS_CACHE_FILE.exists():
-        try:
-            mtime = LIMITS_CACHE_FILE.stat().st_mtime
-            if (dt.datetime.now().timestamp() - mtime) < LIMITS_CACHE_MAX_AGE:
-                with open(LIMITS_CACHE_FILE, "r", encoding="utf-8") as f:
-                    cached = json.load(f)
-                    if isinstance(cached, list) and len(cached) > 0:
-                        return cached
-        except Exception:
-            pass
 
-    import subprocess
+def read_limits_cache(max_age: float | None) -> list[dict[str, Any]] | None:
+    if not LIMITS_CACHE_FILE.exists():
+        return None
     try:
-        proc = subprocess.run(
-            ["agy", "-p", "/usage"],
-            capture_output=True,
-            text=True,
-            timeout=25,
-            check=False
-        )
-        if proc.returncode == 0 and proc.stdout:
-            limits: list[dict[str, Any]] = []
-            for line in proc.stdout.strip().splitlines():
-                parts = line.split("\t")
-                if len(parts) >= 4:
-                    group, window, pct_str, reset_str = parts[0], parts[1], parts[2], parts[3]
-                    if "gemini" in group.lower():
-                        try:
-                            pct_num = float(pct_str.replace("%", "").strip())
-                            used_ratio = max(0.0, min(1.0, (100.0 - pct_num) / 100.0))
-                            is_session = "five hour" in window.lower() or "5" in window
-                            limits.append({
-                                "title": "Session (5-hour)" if is_session else "Weekly",
-                                "label": window,
-                                "percent": round(used_ratio, 4),
-                                "resetsAt": reset_str
-                            })
-                        except Exception:
-                            pass
-            if limits:
-                limits.sort(key=lambda x: 0 if "session" in x["title"].lower() else 1)
-                try:
-                    with open(LIMITS_CACHE_FILE, "w", encoding="utf-8") as f:
-                        json.dump(limits, f)
-                except Exception:
-                    pass
-                return limits
+        if max_age is not None:
+            age = dt.datetime.now().timestamp() - LIMITS_CACHE_FILE.stat().st_mtime
+            if age >= max_age:
+                return None
+        with open(LIMITS_CACHE_FILE, "r", encoding="utf-8") as f:
+            cached = json.load(f)
+        if isinstance(cached, list) and cached and all(isinstance(x, dict) and "family" in x for x in cached):
+            return cached
     except Exception:
         pass
+    return None
 
-    if LIMITS_CACHE_FILE.exists():
+
+def fetch_all_limits() -> list[dict[str, Any]]:
+    import subprocess
+    proc = subprocess.run(
+        ["agy", "-p", "/usage"],
+        capture_output=True,
+        text=True,
+        timeout=25,
+        check=False
+    )
+    if proc.returncode != 0 or not proc.stdout:
+        return []
+    limits: list[dict[str, Any]] = []
+    for line in proc.stdout.strip().splitlines():
+        parts = line.split("\t")
+        if len(parts) < 4:
+            continue
+        group, window, pct_str, reset_str = parts[0], parts[1], parts[2], parts[3]
         try:
-            with open(LIMITS_CACHE_FILE, "r", encoding="utf-8") as f:
-                cached = json.load(f)
-                if isinstance(cached, list):
-                    return cached
-        except Exception:
-            pass
+            pct_num = float(pct_str.replace("%", "").strip())
+        except ValueError:
+            continue
+        used_ratio = max(0.0, min(1.0, (100.0 - pct_num) / 100.0))
+        is_session = "five hour" in window.lower() or "5" in window
+        limits.append({
+            "family": model_family(group),
+            "group": group.strip(),
+            "title": "Session (5-hour)" if is_session else "Weekly",
+            "label": window,
+            "percent": round(used_ratio, 4),
+            "resetsAt": reset_str.strip()
+        })
+    return limits
 
-    return []
+
+def collect_limits(model: str, force: bool = False) -> list[dict[str, Any]]:
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    # The cache holds every group, so a model switch is picked up on the very
+    # next run instead of after the cache expires.
+    all_limits = None if force else read_limits_cache(LIMITS_CACHE_MAX_AGE)
+    if all_limits is None:
+        try:
+            fetched = fetch_all_limits()
+        except Exception:
+            fetched = []
+        if fetched:
+            all_limits = fetched
+            try:
+                with open(LIMITS_CACHE_FILE, "w", encoding="utf-8") as f:
+                    json.dump(all_limits, f)
+            except Exception:
+                pass
+        else:
+            all_limits = read_limits_cache(None) or []
+
+    family = model_family(model)
+    selected = [
+        {k: v for k, v in item.items() if k not in ("family", "group")}
+        for item in all_limits
+        if item.get("family") == family
+    ]
+    selected.sort(key=lambda x: 0 if "session" in str(x.get("title", "")).lower() else 1)
+    return selected
 
 
 def main() -> None:
@@ -219,7 +244,7 @@ def main() -> None:
     total_prompts, today_prompts, prompts_by_date, active_dates = collect_history_stats(base_dir)
     total_sessions, today_sessions, sessions_by_date = collect_session_stats(base_dir)
     recent_days = build_recent_days(prompts_by_date, sessions_by_date)
-    limits = collect_limits(force=args.force)
+    limits = collect_limits(model, force=args.force)
 
     now_utc = dt.datetime.now(dt.timezone.utc).isoformat()
 
