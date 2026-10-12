@@ -30,6 +30,8 @@ antigravity-cli/knowledge/
 antigravity-cli/log/
 antigravity-cli/cli.log
 antigravity-cli/presence/
+antigravity-cli/last_check.timestamp
+antigravity-cli/updater/
 
 # Binaries & Shipped Builtins
 antigravity-cli/bin/

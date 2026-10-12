@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export MISE_MINIMUM_RELEASE_AGE=0
+
+if ! command -v mise >/dev/null 2>&1; then
+  echo "Error: mise is not installed or not in PATH" >&2
+  exit 1
+fi
+
+mise use -g --quiet "agy" || exit 1
+exec mise x "agy" -- "agy" "$@"
