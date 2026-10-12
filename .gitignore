@@ -1,5 +1,6 @@
 node_modules/
 .atl/
 *.local
+!.local/
 .gga.local
 __pycache__/

@@ -1,0 +1,253 @@
+#!/usr/bin/env python3
+# omarchy:summary=Print the Antigravity usage record as JSON
+# omarchy:args=[--force] [--limits-only]
+# omarchy:hidden=true
+"""Collect Google Antigravity CLI usage into one display-ready JSON record.
+
+Extracts local session and prompt statistics passively from
+~/.gemini/antigravity-cli/history.jsonl and conversation_summaries.db.
+Never issues LLM inference requests or consumes tokens.
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import sqlite3
+import sys
+from pathlib import Path
+from typing import Any
+
+AGENT_ID = "antigravity"
+AGENT_NAME = "Antigravity"
+
+
+def get_base_dir() -> Path:
+    override = os.environ.get("ANTIGRAVITY_DATA_DIR")
+    if override:
+        return Path(os.path.expanduser(override)).resolve()
+    return (Path.home() / ".gemini" / "antigravity-cli").resolve()
+
+
+def get_active_model(base_dir: Path) -> str:
+    settings_path = base_dir / "settings.json"
+    if not settings_path.exists():
+        return "Antigravity"
+    try:
+        with open(settings_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return str(data.get("model") or "Antigravity")
+    except Exception:
+        return "Antigravity"
+
+
+def collect_history_stats(base_dir: Path) -> tuple[int, int, dict[str, int], list[str]]:
+    history_path = base_dir / "history.jsonl"
+    total_prompts = 0
+    today_prompts = 0
+    prompts_by_date: dict[str, int] = {}
+    today_str = dt.datetime.now().strftime("%Y-%m-%d")
+
+    if not history_path.exists():
+        return total_prompts, today_prompts, prompts_by_date, []
+
+    try:
+        with open(history_path, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    entry = json.loads(line)
+                    ts = entry.get("timestamp")
+                    if ts is None:
+                        continue
+                    # Timestamps in history.jsonl are in milliseconds
+                    sec = float(ts) / 1000.0 if float(ts) > 10_000_000_000 else float(ts)
+                    date_str = dt.datetime.fromtimestamp(sec).strftime("%Y-%m-%d")
+                    prompts_by_date[date_str] = prompts_by_date.get(date_str, 0) + 1
+                    total_prompts += 1
+                    if date_str == today_str:
+                        today_prompts += 1
+                except Exception:
+                    continue
+    except Exception:
+        pass
+
+    active_dates = sorted(prompts_by_date.keys())
+    return total_prompts, today_prompts, prompts_by_date, active_dates
+
+
+def collect_session_stats(base_dir: Path) -> tuple[int, int, dict[str, int]]:
+    db_path = base_dir / "conversation_summaries.db"
+    total_sessions = 0
+    today_sessions = 0
+    sessions_by_date: dict[str, int] = {}
+
+    if not db_path.exists():
+        return total_sessions, today_sessions, sessions_by_date
+
+    try:
+        uri = f"file:{db_path}?mode=ro"
+        with sqlite3.connect(uri, uri=True, timeout=2.0) as con:
+            cur = con.cursor()
+            cur.execute("SELECT count(*) FROM conversation_summaries WHERE step_count > 0")
+            row = cur.fetchone()
+            if row:
+                total_sessions = int(row[0] or 0)
+
+            cur.execute(
+                "SELECT count(*) FROM conversation_summaries "
+                "WHERE step_count > 0 AND date(last_modified_time) = date('now')"
+            )
+            row_today = cur.fetchone()
+            if row_today:
+                today_sessions = int(row_today[0] or 0)
+
+            cur.execute(
+                "SELECT date(last_modified_time), count(*) "
+                "FROM conversation_summaries "
+                "WHERE step_count > 0 "
+                "GROUP BY date(last_modified_time)"
+            )
+            for d, c in cur.fetchall():
+                if d:
+                    sessions_by_date[str(d)] = int(c or 0)
+    except Exception:
+        pass
+
+    return total_sessions, today_sessions, sessions_by_date
+
+
+def build_recent_days(prompts_by_date: dict[str, int], sessions_by_date: dict[str, int]) -> list[dict[str, Any]]:
+    today = dt.datetime.now().date()
+    result = []
+    for offset in range(6, -1, -1):
+        day = today - dt.timedelta(days=offset)
+        day_str = day.strftime("%Y-%m-%d")
+        prompts = prompts_by_date.get(day_str, 0)
+        sessions = sessions_by_date.get(day_str, 0)
+        result.append({
+            "date": day_str,
+            "messageCount": prompts,
+            "prompts": prompts,
+            "sessions": sessions
+        })
+    return result
+
+
+CACHE_DIR = Path.home() / ".cache" / "omarchy" / "agent-usage"
+LIMITS_CACHE_FILE = CACHE_DIR / "antigravity-limits.json"
+LIMITS_CACHE_MAX_AGE = 300  # 5 minutes
+
+
+def collect_limits(force: bool = False) -> list[dict[str, Any]]:
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    if not force and LIMITS_CACHE_FILE.exists():
+        try:
+            mtime = LIMITS_CACHE_FILE.stat().st_mtime
+            if (dt.datetime.now().timestamp() - mtime) < LIMITS_CACHE_MAX_AGE:
+                with open(LIMITS_CACHE_FILE, "r", encoding="utf-8") as f:
+                    cached = json.load(f)
+                    if isinstance(cached, list) and len(cached) > 0:
+                        return cached
+        except Exception:
+            pass
+
+    import subprocess
+    try:
+        proc = subprocess.run(
+            ["agy", "-p", "/usage"],
+            capture_output=True,
+            text=True,
+            timeout=25,
+            check=False
+        )
+        if proc.returncode == 0 and proc.stdout:
+            limits: list[dict[str, Any]] = []
+            for line in proc.stdout.strip().splitlines():
+                parts = line.split("\t")
+                if len(parts) >= 4:
+                    group, window, pct_str, reset_str = parts[0], parts[1], parts[2], parts[3]
+                    if "gemini" in group.lower():
+                        try:
+                            pct_num = float(pct_str.replace("%", "").strip())
+                            used_ratio = max(0.0, min(1.0, (100.0 - pct_num) / 100.0))
+                            is_session = "five hour" in window.lower() or "5" in window
+                            limits.append({
+                                "title": "Session (5-hour)" if is_session else "Weekly",
+                                "label": window,
+                                "percent": round(used_ratio, 4),
+                                "resetsAt": reset_str
+                            })
+                        except Exception:
+                            pass
+            if limits:
+                limits.sort(key=lambda x: 0 if "session" in x["title"].lower() else 1)
+                try:
+                    with open(LIMITS_CACHE_FILE, "w", encoding="utf-8") as f:
+                        json.dump(limits, f)
+                except Exception:
+                    pass
+                return limits
+    except Exception:
+        pass
+
+    if LIMITS_CACHE_FILE.exists():
+        try:
+            with open(LIMITS_CACHE_FILE, "r", encoding="utf-8") as f:
+                cached = json.load(f)
+                if isinstance(cached, list):
+                    return cached
+        except Exception:
+            pass
+
+    return []
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Antigravity usage collector")
+    parser.add_argument("--force", action="store_true", help="Force refresh")
+    parser.add_argument("--limits-only", action="store_true", help="Only refresh limits")
+    args = parser.parse_args()
+
+    base_dir = get_base_dir()
+    model = get_active_model(base_dir)
+    total_prompts, today_prompts, prompts_by_date, active_dates = collect_history_stats(base_dir)
+    total_sessions, today_sessions, sessions_by_date = collect_session_stats(base_dir)
+    recent_days = build_recent_days(prompts_by_date, sessions_by_date)
+    limits = collect_limits(force=args.force)
+
+    now_utc = dt.datetime.now(dt.timezone.utc).isoformat()
+
+    record: dict[str, Any] = {
+        "schemaVersion": 1,
+        "id": AGENT_ID,
+        "name": AGENT_NAME,
+        "updatedAt": now_utc,
+        "ready": True,
+        "hasLocalStats": True,
+        "tierLabel": model,
+        "todayPrompts": today_prompts,
+        "todaySessions": today_sessions,
+        "todayTotalTokens": 0,
+        "todayTokensByModel": {},
+        "recentDays": recent_days,
+        "totalPrompts": total_prompts,
+        "totalSessions": total_sessions,
+        "activeDays": len(active_dates),
+        "activeDates": active_dates,
+        "modelUsage": {},
+        "limits": limits,
+        "usageStatusText": "",
+        "authHelpText": ""
+    }
+
+    sys.stdout.write(json.dumps(record, separators=(",", ":")) + "\n")
+
+
+if __name__ == "__main__":
+    main()
