@@ -1,4 +1,13 @@
 {
+  "plugins": {
+    "modern-web-guidance-plugin": {
+      "installedFrom": {
+        "id": "antigravity-plugins-official/plugin/modern-web-guidance-plugin",
+        "marketplace": "antigravity-plugins-official",
+        "version": "1.0.6"
+      }
+    }
+  },
   "userSettings": {
     "permissionGrantsV2Migrated": true,
     "remoteControlEnabled": true,
