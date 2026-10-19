@@ -4,7 +4,7 @@ codex = "latest"
 gh = "latest"
 node = "latest"
 "npm:playwright" = "latest"
-opencode = "latest"
+opencode = { version = "latest", allow_builds = ["@opencode/cli"] }
 
 [settings.upgrade]
 auto_prune = false
