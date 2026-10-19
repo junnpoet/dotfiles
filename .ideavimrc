@@ -1,3 +1,5 @@
+vnoremap p P
+
 " Salir del modo de inserción con jk
 inoremap jk <Esc>
 
@@ -27,4 +29,11 @@ set multiple-cursors
 nmap <C-x> <Plug>SkipOccurrence
 xmap <C-x> <Plug>SkipOccurrence
 
+" Crear un cursor abajo con Espacio + j
+nnoremap <Space>j :action EditorCloneCaretBelow<CR>
+
+" Crear un cursor arriba con Espacio + k
+nnoremap <Space>k :action EditorCloneCaretAbove<CR>
+
 set ideajoin
+set commentary

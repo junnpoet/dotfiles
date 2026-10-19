@@ -38,7 +38,12 @@
       ],
       "right": [
         {
-          "id": "omarchy.tray"
+          "id": "omarchy.tray",
+          "pinned": [
+            "Strawberry",
+            "toolbox"
+          ],
+          "hidden": []
         },
         {
           "id": "omarchy.bluetooth"

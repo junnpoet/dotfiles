@@ -80,7 +80,7 @@ hl.unbind("SUPER + SHIFT + M") -- desactiva Spotify (default) que interfiere con
 o.bind("SUPER + SHIFT + M", "Strawberry", "uwsm-app -- strawberry")
 hl.unbind("SUPER + SHIFT + O") -- desactiva Obsidian (default) que ocupa SUPER+SHIFT+O
 o.bind("SUPER + SHIFT + O", "Notion", "notion-app")
-o.bind("SUPER + SHIFT + I", "Gemini", { webapp = "https://gemini.google.com/app?hl=es" })
+-- o.bind("SUPER + SHIFT + I", "Gemini", { webapp = "https://gemini.google.com/app?hl=es" })
 hl.unbind("SUPER + SHIFT + G") -- desactiva Signal (default) que ocupa SUPER+SHIFT+G
 o.bind("SUPER + SHIFT + G", "WhatsApp", { webapp = "https://web.whatsapp.com/", focus = "WhatsApp" })
 hl.unbind("SUPER + SHIFT + ALT + G") -- desactiva WhatsApp duplicado en SUPER+SHIFT+ALT+G (default)

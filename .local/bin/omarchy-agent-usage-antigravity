@@ -146,9 +146,14 @@ LIMITS_CACHE_MAX_AGE = 300  # 5 minutes
 
 
 def model_family(name: str) -> str:
-    # Antigravity splits quotas in two pools: Gemini models, and the partner
-    # models (Claude, GPT-OSS) that share the second one.
-    return "gemini" if "gemini" in str(name).lower() else "partner"
+    # Antigravity splits quotas across general Gemini models, Gemini 4 Argon
+    # (which has its own dedicated weekly pool), and partner models (Claude, GPT-OSS).
+    lowered = str(name).lower()
+    if "argon" in lowered:
+        return "argon"
+    if "gemini" in lowered:
+        return "gemini"
+    return "partner"
 
 
 def read_limits_cache(max_age: float | None) -> list[dict[str, Any]] | None:
@@ -227,7 +232,7 @@ def collect_limits(model: str, force: bool = False) -> list[dict[str, Any]]:
     selected = [
         {k: v for k, v in item.items() if k not in ("family", "group")}
         for item in all_limits
-        if item.get("family") == family
+        if (model_family(item["group"]) if "group" in item else item.get("family")) == family
     ]
     selected.sort(key=lambda x: 0 if "session" in str(x.get("title", "")).lower() else 1)
     return selected
