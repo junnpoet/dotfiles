@@ -71,12 +71,13 @@
           "id": "omarchy.weather"
         },
         {
-          "id": "omarchy.agents"
+          "id": "lucille.agents"
         },
         {
           "id": "omarchy.system-update"
         }
-      ]
+      ],
+      "tray": []
     },
     "position": "top",
     "transparent": false

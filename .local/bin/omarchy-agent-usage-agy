@@ -1,0 +1,202 @@
+#!/usr/bin/env python3
+# omarchy:summary=Collect accurate Google Antigravity usage and limits
+# omarchy:args=[--force] [--limits-only]
+# omarchy:hidden=true
+"""Accurate Google Antigravity usage and limits collector for Omarchy.
+
+Combines the comprehensive local history & token stats from upstream
+/usr/share/omarchy/bin/omarchy-agent-usage-agy with real Gemini session
+and weekly limits queried via `agy -p /usage`.
+"""
+
+import argparse
+import datetime as dt
+import json
+import os
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+AGENT_ID = "agy"
+CACHE_DIR = Path.home() / ".cache" / "omarchy"
+CACHE_FILE = CACHE_DIR / "agents-agy-limits.json"
+CACHE_MAX_AGE_SEC = 60  # Cache limits for 60s unless --force is given
+
+
+def fetch_real_limits() -> list[dict]:
+    """Execute agy -p /usage and parse actual limits for Gemini Models, Claude/GPT, and Argon."""
+    try:
+        proc = subprocess.run(
+            ["agy", "-p", "/usage"],
+            capture_output=True,
+            text=True,
+            timeout=25,
+            check=False,
+        )
+        if proc.returncode != 0 or not proc.stdout:
+            return []
+    except Exception:
+        return []
+
+    limits: list[dict] = []
+    gemini_session = None
+    gemini_weekly = None
+    scoped_limits = []
+
+    for line in proc.stdout.strip().splitlines():
+        parts = line.split("\t")
+        if len(parts) < 4:
+            continue
+        group, window, pct_str, reset_str = parts[0].strip(), parts[1].strip(), parts[2].strip(), parts[3].strip()
+        try:
+            pct_num = float(pct_str.replace("%", "").strip())
+        except ValueError:
+            continue
+        used_ratio = max(0.0, min(1.0, round((100.0 - pct_num) / 100.0, 4)))
+
+        # Format reset_str to ISO format if needed
+        reset_time = reset_str
+        if " " in reset_str:
+            try:
+                parsed = dt.datetime.fromisoformat(reset_str)
+                reset_time = parsed.isoformat()
+            except Exception:
+                pass
+
+        if "gemini models" in group.lower():
+            if "five hour" in window.lower() or "5" in window:
+                gemini_session = {
+                    "label": "Session (5-hour)",
+                    "title": "Session",
+                    "percent": used_ratio,
+                    "resetsAt": reset_time,
+                }
+            elif "weekly" in window.lower() or "week" in window:
+                gemini_weekly = {
+                    "label": "Weekly (7-day)",
+                    "title": "Weekly",
+                    "percent": used_ratio,
+                    "resetsAt": reset_time,
+                }
+        elif "claude" in group.lower() or "gpt" in group.lower():
+            if used_ratio > 0:
+                is_week = "week" in window.lower()
+                scoped_limits.append({
+                    "label": f"Claude/GPT {'Weekly' if is_week else 'Session'}",
+                    "title": f"Claude/GPT {'Weekly' if is_week else 'Session'}",
+                    "percent": used_ratio,
+                    "resetsAt": reset_time,
+                })
+        elif "argon" in group.lower():
+            if used_ratio > 0:
+                scoped_limits.append({
+                    "label": "Argon Weekly",
+                    "title": "Argon Weekly",
+                    "percent": used_ratio,
+                    "resetsAt": reset_time,
+                })
+
+    if gemini_session:
+        limits.append(gemini_session)
+    if gemini_weekly:
+        limits.append(gemini_weekly)
+    limits.extend(scoped_limits)
+    return limits
+
+
+def get_cached_limits(force: bool = False) -> list[dict]:
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    if not force and CACHE_FILE.exists():
+        try:
+            mtime = CACHE_FILE.stat().st_mtime
+            if (time.time() - mtime) < CACHE_MAX_AGE_SEC:
+                with open(CACHE_FILE, "r", encoding="utf-8") as f:
+                    cached = json.load(f)
+                if isinstance(cached, list) and cached:
+                    return cached
+        except Exception:
+            pass
+
+    limits = fetch_real_limits()
+    if limits:
+        try:
+            with open(CACHE_FILE, "w", encoding="utf-8") as f:
+                json.dump(limits, f)
+        except Exception:
+            pass
+    elif CACHE_FILE.exists():
+        try:
+            with open(CACHE_FILE, "r", encoding="utf-8") as f:
+                limits = json.load(f)
+        except Exception:
+            limits = []
+    return limits
+
+
+def get_base_record(force: bool, limits_only: bool) -> dict:
+    usage_path = Path(os.environ.get("XDG_STATE_HOME") or (Path.home() / ".local" / "state")) / "omarchy" / "agents" / "usage" / "agy.json"
+    upstream_bin = Path("/usr/share/omarchy/bin/omarchy-agent-usage-agy")
+
+    # If usage file already exists and not forcing a re-scan, reuse it
+    if usage_path.exists() and not force:
+        try:
+            with open(usage_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            if isinstance(data, dict) and data.get("id") == AGENT_ID:
+                return data
+        except Exception:
+            pass
+
+    # Otherwise call upstream binary
+    if upstream_bin.exists():
+        cmd = [str(upstream_bin)]
+        if force:
+            cmd.append("--force")
+        if limits_only:
+            cmd.append("--limits-only")
+        try:
+            proc = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            if proc.returncode == 0 and proc.stdout.strip():
+                return json.loads(proc.stdout.strip())
+        except Exception:
+            pass
+
+    # Fallback to existing file if available
+    if usage_path.exists():
+        try:
+            with open(usage_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+
+    return {
+        "schemaVersion": 1,
+        "id": AGENT_ID,
+        "name": "Antigravity",
+        "ready": True,
+        "tierLabel": "Pro",
+        "limits": [],
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--force", action="store_true")
+    parser.add_argument("--limits-only", action="store_true")
+    args = parser.parse_args()
+
+    record = get_base_record(args.force, args.limits_only)
+    limits = get_cached_limits(force=args.force)
+
+    if limits:
+        record["limits"] = limits
+        record["limitsStale"] = False
+        record["limitsFetchedAt"] = int(time.time() * 1000)
+
+    # Output compact json
+    sys.stdout.write(json.dumps(record, separators=(",", ":")) + "\n")
+
+
+if __name__ == "__main__":
+    main()
