@@ -30,6 +30,7 @@ require("default.hypr.toggles")
 o.window("^(org.gnome.clocks)$", { float = true, size = "900 600" })
 o.window("^(xdg-desktop-portal-gtk)$", { float = true, size = "850 650" })
 o.window("^(org.strawberrymusicplayer.strawberry)$", { float = true, size = "1000 600" })
+o.window({ class = "^(org.strawberrymusicplayer.strawberry)$", title = "^(Configuración — Strawberry Music Player)$" }, { float = true, size = "800 550" })
 o.window("^(strawberry)$", { float = true, size = "850 550" })
 o.window("^(org.xfce.mousepad)$", { float = true })
 o.window("^(PacketTracer)$", { float = true, no_follow_mouse = true })
@@ -46,6 +47,8 @@ hl.on("window.open", function(win)
     end
   end
 end)
+
+o.window({ class = "^(calibre-gui)$", title = "^(calibre)$" }, { float = true })
 
 -- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
 do local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end

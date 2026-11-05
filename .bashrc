@@ -31,6 +31,7 @@ function ff {
   fi
 }
 
-export PATH=$OMARCHY_PATH/bin:$PATH:$HOME/.local/bin:$HOME/go/bin
+export PATH=$OMARCHY_PATH/bin:$PATH:$HOME/.local/bin:$HOME/go/bin:$HOME/.cargo/bin/
 
 alias v='nvim'
+alias e='vim'

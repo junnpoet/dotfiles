@@ -61,6 +61,9 @@ o.bind("SUPER + TAB", "Toggle workspace layout", "omarchy-hyprland-workspace-lay
 -- Toggle window split
 o.bind("SUPER + U", "Toggle window split", hl.dsp.layout("togglesplit"))
 
+-- Toggle default floating mode (new windows float by default)
+o.bind("SUPER + ALT + T", "Toggle default floating mode", "omarchy-hyprland-floating-mode-toggle")
+
 -- Group navigation (focus) – changegroupactive b/f → hl.dsp.group.prev/next
 hl.unbind("SUPER + CTRL + LEFT")
 hl.unbind("SUPER + CTRL + RIGHT")
@@ -84,3 +87,5 @@ o.bind("SUPER + SHIFT + O", "Notion", "notion-app")
 hl.unbind("SUPER + SHIFT + G") -- desactiva Signal (default) que ocupa SUPER+SHIFT+G
 o.bind("SUPER + SHIFT + G", "WhatsApp", { webapp = "https://web.whatsapp.com/", focus = "WhatsApp" })
 hl.unbind("SUPER + SHIFT + ALT + G") -- desactiva WhatsApp duplicado en SUPER+SHIFT+ALT+G (default)
+hl.unbind("SUPER + SHIFT + A") -- desactiva ChatGPT (default) que ocupa SUPER+SHIFT+A
+hl.unbind("SUPER + SHIFT + C") -- desactiva Hey (default) que ocupa SUPER+SHIFT+C

@@ -6,6 +6,8 @@ installation_id
 antigravity-cli/installation_id
 jetski_state.pbtxt
 antigravity-cli/jetski_state.pbtxt
+mcp_oauth_tokens.json
+antigravity-cli/mcp_oauth_tokens.json
 
 # Sessions, Conversations & History
 history/

@@ -1,23 +1,27 @@
 -- Change the default Omarchy look'n'feel.
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#general
--- hl.config({
---   general = {
---     -- No gaps between windows or borders.
---     gaps_in = 0,
---     gaps_out = 0,
---     border_size = 0,
---
---     -- Change to niri-like side-scrolling layout.
---     layout = "scrolling",
---   },
--- })
+hl.config({
+  general = {
+    -- No gaps between windows or borders.
+    -- gaps_in = 0,
+    -- gaps_out = 0,
+    -- border_size = 0,
+
+    -- Change to niri-like side-scrolling layout.
+    -- layout = "scrolling",
+    col = {
+      -- active_border = "#5e5e5e",
+      inactive_border = "#a8a8a8"
+    }
+  },
+})
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
 hl.config({
   decoration = {
     -- Use round window corners.
-    rounding = 5,
+    rounding = 8,
 
     -- Dim unfocused windows (0.0 = no dim, 1.0 = fully dimmed).
     -- dim_inactive = true,
@@ -35,12 +39,13 @@ hl.config({
 })
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#animations
--- hl.config({
---   animations = {
---     -- Disable all animations.
---     enabled = false,
---   },
--- })
+hl.animation({
+      leaf = "specialWorkspace",
+      enabled = true,
+      speed = 3,
+      bezier = "easeOutQuint",
+      style = "fade",
+    })
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#layout
 -- hl.config({
@@ -57,3 +62,8 @@ hl.config({
 --     column_width = 0.97,
 --   },
 -- })
+
+-- Opt another application in to Omarchy's standard transparency.
+-- Find its class with: hyprctl clients
+-- o.transparent_window("my-app")
+-- o.transparent_window("my-app", "0.9 0.85") -- Custom active/inactive opacity.
