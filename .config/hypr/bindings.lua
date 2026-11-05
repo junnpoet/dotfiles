@@ -61,9 +61,6 @@ o.bind("SUPER + TAB", "Toggle workspace layout", "omarchy-hyprland-workspace-lay
 -- Toggle window split
 o.bind("SUPER + U", "Toggle window split", hl.dsp.layout("togglesplit"))
 
--- Toggle default floating mode (new windows float by default)
-o.bind("SUPER + ALT + T", "Toggle default floating mode", "omarchy-hyprland-floating-mode-toggle")
-
 -- Group navigation (focus) – changegroupactive b/f → hl.dsp.group.prev/next
 hl.unbind("SUPER + CTRL + LEFT")
 hl.unbind("SUPER + CTRL + RIGHT")
