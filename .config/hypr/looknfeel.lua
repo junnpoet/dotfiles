@@ -39,13 +39,9 @@ hl.config({
 })
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#animations
-hl.animation({
-      leaf = "specialWorkspace",
-      enabled = true,
-      speed = 3,
-      bezier = "easeOutQuint",
-      style = "fade",
-    })
+hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 3, bezier = "easeOutQuint", style = "fade" })
+hl.animation({ leaf = "specialWorkspaceIn", enabled = true, speed = 3, bezier = "easeOutQuint", style = "fade" })
+hl.animation({ leaf = "specialWorkspaceOut", enabled = true, speed = 3, bezier = "easeOutQuint", style = "fade" })
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#layout
 -- hl.config({

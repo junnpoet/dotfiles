@@ -9,6 +9,35 @@
           "verticalFormat": "HH\n—\nmm"
         }
       ],
+      "centerBegin": [
+        {
+          "id": "omarchy.indicators"
+        }
+      ],
+      "centerEnd": [
+        {
+          "cities": [
+            {
+              "name": "Lima",
+              "zone": "America/Lima"
+            },
+            {
+              "name": "Barcelona",
+              "zone": "Europe/Madrid"
+            }
+          ],
+          "id": "omarchy.elsewhen"
+        },
+        {
+          "id": "omarchy.weather"
+        },
+        {
+          "id": "lucille.agents"
+        },
+        {
+          "id": "omarchy.system-update"
+        }
+      ],
       "left": [
         {
           "id": "omarchy.menu"
@@ -22,12 +51,12 @@
       ],
       "right": [
         {
+          "hidden": [],
           "id": "omarchy.tray",
           "pinned": [
             "Strawberry",
             "toolbox"
-          ],
-          "hidden": []
+          ]
         },
         {
           "id": "omarchy.keyboard-layout"
@@ -48,39 +77,13 @@
           "id": "omarchy.power"
         }
       ],
-      "centerBegin": [
-        {
-          "id": "omarchy.indicators"
-        }
-      ],
-      "centerEnd": [
-        {
-          "id": "omarchy.elsewhen",
-          "cities": [
-            {
-              "name": "Lima",
-              "zone": "America/Lima"
-            },
-            {
-              "name": "Barcelona",
-              "zone": "Europe/Madrid"
-            }
-          ]
-        },
-        {
-          "id": "omarchy.weather"
-        },
-        {
-          "id": "lucille.agents"
-        },
-        {
-          "id": "omarchy.system-update"
-        }
-      ],
       "tray": []
     },
     "position": "top",
     "transparent": false
+  },
+  "dock": {
+    "autohide": true
   },
   "idle": {
     "lock": 300,
