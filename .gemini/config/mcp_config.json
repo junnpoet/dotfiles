@@ -3,13 +3,6 @@
     "context7": {
       "serverUrl": "https://mcp.context7.com/mcp"
     },
-    "engram": {
-      "args": [
-        "mcp",
-        "--tools=agent"
-      ],
-      "command": "/home/lucille/go/bin/engram"
-    },
     "markitdown": {
       "args": [
         "markitdown-mcp"

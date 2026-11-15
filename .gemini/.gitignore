@@ -28,6 +28,7 @@ state.json
 projects.json
 tmp/
 antigravity-cli/cache/
+antigravity-cli/mcp/
 antigravity-cli/crashes/
 antigravity-cli/knowledge/
 antigravity-cli/log/
