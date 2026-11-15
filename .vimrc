@@ -7,6 +7,11 @@ set relativenumber
 silent! call mkdir(expand('~/.local/state/vim/swap'), 'p')
 set directory=~/.local/state/vim/swap//
 
+" Tab config
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
 " Leader key configuration
 let mapleader = " "
 
