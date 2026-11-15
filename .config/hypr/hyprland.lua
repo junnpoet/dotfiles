@@ -37,7 +37,7 @@ o.window("^(PacketTracer)$", { float = true, no_follow_mouse = true })
 o.window({ class = "^(Zotero)$", title = "^(Diálogo de citas|.*[Cc]itation.*|Zotero - Añadir/Editar cita)$" }, { float = true, size = "1000 300" })
 o.window({ class = "^(Zotero)$", title = "^(Progreso|Progress|^$)$" }, { float = true })
 o.window({ class = "^(Zotero)$", initial_title = "^$" }, { float = true })
-o.window({ class = "^(libreoffice-startcenter)$" }, { float = true, size = "745 435", center = true })
+o.window({ class = "^(libreoffice-startcenter)$", title = "^(TextMaths Equations \\[LaTeX Mode\\])$" }, { float = true, size = "745 435", center = true })
 
 hl.on("window.open", function(win)
   if win and win.class == "PacketTracer" then

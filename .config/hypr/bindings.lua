@@ -65,7 +65,11 @@ o.bind("SUPER + U", "Toggle window split", hl.dsp.layout("togglesplit"))
 hl.unbind("SUPER + CTRL + LEFT")
 hl.unbind("SUPER + CTRL + RIGHT")
 o.bind("SUPER + N", "Previous window in group", hl.dsp.group.prev())
+hl.unbind("SUPER + M")
 o.bind("SUPER + M", "Next window in group", hl.dsp.group.next())
+
+-- Minimize window to the dock (reubicado desde SUPER + M para evitar conflicto con grupos)
+o.bind("SUPER + CTRL + M", "Minimize window to the dock", "omarchy-hyprland-window-minimize")
 
 -- Group navigation (reorder) – movegroupwindow b/f → hl.dsp.group.move_window
 o.bind("SUPER + ALT + N", "Reorder window backward", hl.dsp.group.move_window({ forward = false }))
@@ -79,7 +83,7 @@ o.bind("SUPER + SHIFT + CTRL + M", "Music TUI", "omarchy-launch-or-focus-tui cli
 hl.unbind("SUPER + SHIFT + M") -- desactiva Spotify (default) que interfiere con Strawberry
 o.bind("SUPER + SHIFT + M", "Strawberry", "uwsm-app -- strawberry")
 hl.unbind("SUPER + SHIFT + O") -- desactiva Obsidian (default) que ocupa SUPER+SHIFT+O
-o.bind("SUPER + SHIFT + O", "Notion", "notion-app")
+o.bind("SUPER + SHIFT + O", "Notion", "notion-desktop")
 -- o.bind("SUPER + SHIFT + I", "Gemini", { webapp = "https://gemini.google.com/app?hl=es" })
 hl.unbind("SUPER + SHIFT + G") -- desactiva Signal (default) que ocupa SUPER+SHIFT+G
 o.bind("SUPER + SHIFT + G", "WhatsApp", { webapp = "https://web.whatsapp.com/", focus = "WhatsApp" })
