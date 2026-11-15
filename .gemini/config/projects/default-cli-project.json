@@ -1,5 +1,8 @@
 {
   "id":  "default-cli-project",
   "name":  "CLI Project",
-  "projectResources":  {}
+  "projectResources":  {},
+  "permissionGrants":  {
+    "v2Migrated":  true
+  }
 }

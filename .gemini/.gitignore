@@ -18,6 +18,7 @@ antigravity-cli/conversation_summaries.db*
 antigravity-cli/annotations/
 antigravity-cli/implicit/
 antigravity-cli/brain/
+antigravity-cli/voice_chats/
 brain/
 
 # Machine State & Local Cache
@@ -36,8 +37,10 @@ antigravity-cli/last_check.timestamp
 antigravity-cli/updater/
 
 # Binaries & Shipped Builtins
+bin/
 antigravity-cli/bin/
 antigravity-cli/builtin/
+antigravity/
 
 # Ephemeral & Database Files
 *.lock
