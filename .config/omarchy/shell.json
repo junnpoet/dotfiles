@@ -1,9 +1,10 @@
 {
   "bar": {
+    "background": "opaque",
     "layout": {
       "center": [
         {
-          "format": "dddd HH:mm",
+          "format": "ddd d MMM HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
           "verticalFormat": "HH\n—\nmm"
@@ -18,7 +19,10 @@
         {
           "cities": [
             {
-              "name": "Lima",
+              "lat": -9.12206,
+              "lon": -78.53107,
+              "name": "Nuevo Chimbote",
+              "region": "Ancash, PE",
               "zone": "America/Lima"
             },
             {
@@ -30,9 +34,6 @@
         },
         {
           "id": "omarchy.weather"
-        },
-        {
-          "id": "lucille.agents"
         },
         {
           "id": "omarchy.system-update"
@@ -79,11 +80,14 @@
       ],
       "tray": []
     },
-    "position": "top",
-    "transparent": false
+    "position": "top"
   },
   "dock": {
-    "autohide": true
+    "autohide": true,
+    "pinned": [
+      "X",
+      "YouTube"
+    ]
   },
   "idle": {
     "lock": 300,
