@@ -12,6 +12,8 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
+set linebreak
+
 " Leader key configuration
 let mapleader = " "
 
