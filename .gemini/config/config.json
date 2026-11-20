@@ -1,5 +1,12 @@
 {
   "plugins": {
+    "canva": {
+      "installedFrom": {
+        "id": "antigravity-plugins-partners/plugin/canva",
+        "marketplace": "antigravity-plugins-partners",
+        "version": "1.0.0-agy.b0e08437"
+      }
+    },
     "swarm": {
       "enabled": true
     }

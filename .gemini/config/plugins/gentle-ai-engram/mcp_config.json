@@ -1,11 +1,3 @@
 {
-  "mcpServers": {
-    "engram": {
-      "args": [
-        "mcp",
-        "--tools=agent"
-      ],
-      "command": "/home/lucille/go/bin/engram"
-    }
-  }
+  "mcpServers": {}
 }
