@@ -1,7 +1,23 @@
 " Basic settings
 syntax on
 set number
-set relativenumber
+" set relativenumber
+
+" Keep line numbers dark gray and sign column transparent on light backgrounds.
+" Re-applied on ColorScheme/background detection so terminal t_RB doesn't reset them.
+function! s:ApplyLightUiHighlights() abort
+  highlight LineNr ctermfg=240 guifg=#585858
+  highlight CursorLineNr ctermfg=235 cterm=bold guifg=#262626 gui=bold
+  highlight SignColumn ctermbg=NONE guibg=NONE
+endfunction
+
+augroup LightUiHighlights
+  autocmd!
+  autocmd ColorScheme * call s:ApplyLightUiHighlights()
+  autocmd OptionSet background call s:ApplyLightUiHighlights()
+augroup END
+
+call s:ApplyLightUiHighlights()
 
 " Centralize swap files to avoid polluting projects (// ensures unique names via full path)
 silent! call mkdir(expand('~/.local/state/vim/swap'), 'p')

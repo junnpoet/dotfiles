@@ -4,3 +4,7 @@ node_modules/
 !.local/
 .gga.local
 __pycache__/
+
+# Herdr runtime state, logs, and sockets (keep only config.toml)
+.config/herdr/*
+!.config/herdr/config.toml
